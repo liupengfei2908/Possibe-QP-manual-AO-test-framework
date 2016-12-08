@@ -65,16 +65,6 @@ static HINSTANCE l_hInst;             // this GAME instance
 static HWND      l_hWnd;              // main window handle
 static LPSTR     l_cmdLine;           // the command line string
 
-static GraphicDisplay   l_lcd;        // LCD display on EFM32-SLSTK3401A
-static SegmentDisplay   l_userLED0;   // USER LED0 on EFM32-SLSTK3401A
-static SegmentDisplay   l_userLED1;   // USER LED1 on EFM32-SLSTK3401A
-static SegmentDisplay   l_scoreBoard; // segment display for the score
-static OwnerDrawnButton l_userBtn0;   // USER Button0 on EFM32-SLSTK3401A
-static OwnerDrawnButton l_userBtn1;   // USER Button1 on EFM32-SLSTK3401A
-
-static unsigned l_rnd;  // random seed
-static void playerTrigger(void);
-
 #ifdef Q_SPY
     enum QSUserRecords {
         PLAYER_TRIGGER = QP::QS_USER,
@@ -82,7 +72,6 @@ static void playerTrigger(void);
     };
     static SOCKET l_sock = INVALID_SOCKET;
     static uint8_t const l_clock_tick = 0U;
-    static uint8_t const l_mouse      = 0U;
 #endif
 
 // Local functions -----------------------------------------------------------
@@ -140,9 +129,17 @@ extern "C" int WINAPI WinMain(HINSTANCE hInst, HINSTANCE /*hPrevInst*/,
 
     return msg.wParam;
 }
-//............................................................................
-static LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg,
-                                WPARAM wParam, LPARAM lParam)
+//..........................................................................*/
+static void playerTrigger(void) {
+    static QP::QEvt const fireEvt = { GAME::PLAYER_TRIGGER_SIG, 0U, 0U };
+    QP::QF::PUBLISH(&fireEvt, static_cast<void *>(0));
+}
+
+
+///***************************************************************************
+/// **************************************************************************
+static LRESULT CALLBACK WndProc (HWND hWnd, UINT iMsg,
+    WPARAM wParam, LPARAM lParam)
 {
     switch (iMsg) {
 
@@ -150,115 +147,82 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg,
         // NOTE: Any child-windows are NOT created yet at this time, so
         // the GetDlgItem() function can't be used (it will return NULL).
         //
-        case WM_CREATE: {
-            l_hWnd = hWnd; // save the window handle
+    case WM_CREATE: {
+        l_hWnd = hWnd; // save the window handle
 
-        
-            return 0;
-        }
 
-        // Perform initialization after all child windows have been created
-        case WM_INITDIALOG: {
-
-            // --> QP: spawn the GAME thread to run main_gui()
-            Q_ALLEGE(CreateThread(NULL, 0, &appThread, NULL, 0, NULL)
-                != (HANDLE)0);
-            return 0;
-        }
-
-        case WM_DESTROY: {
-            OutputDebugString("DESTROY\n");
-            PostQuitMessage(0);
-            return 0;
-        }
-
-        // commands from regular buttons and menus...
-        case WM_COMMAND: {
-            SetFocus(hWnd);
-            switch (wParam) {
-                case IDOK:
-                case IDCANCEL: {
-                    OutputDebugString("QUIT\n");
-                    PostQuitMessage(0);
-                    break;
-                }
-            }
-            return 0;
-        }
-
-        // owner-drawn buttons...
-        case WM_DRAWITEM: {
-            LPDRAWITEMSTRUCT pdis = (LPDRAWITEMSTRUCT)lParam;
-            switch (pdis->CtlID) {
-                case IDC_USER0: {  // USER owner-drawn Button0
-                    OutputDebugString("USER0\n");
-
-                    switch (OwnerDrawnButton_draw(&l_userBtn0, pdis)) {
-                        case BTN_DEPRESSED: {
-                            playerTrigger();
-                            break;
-                        }
-                        case BTN_RELEASED: {
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
-                    }
-                    break;
-                }
-                case IDC_USER1: {  // USER owner-drawn Button1
-                    OutputDebugString("USER1\n");
-                    switch (OwnerDrawnButton_draw(&l_userBtn1, pdis)) {
-                        default: {
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-            return 0;
-        }
-
-        // mouse wheel input...
-        case WM_MOUSEWHEEL: {
-            OutputDebugString("MOUSEWHEEL\n");
-            return 0;
-        }
-
-        // keyboard input...
-        case WM_KEYDOWN: {
-            OutputDebugString("KEYDOWN\n");
-            switch (wParam) {
-                case VK_SPACE:
-                    playerTrigger();
-
-                    break;
-                }
-                case VK_NUMPAD0: {
-                    break;
-
-                }
-                // ...
-
-                return 0;
-            }
-
-        case WM_KEYUP: {
-            OutputDebugString("KEYUP\n");
-            switch (wParam) {
-                case VK_SPACE:
-                    break;
-            }
-            return 0;
-        }
+        return 0;
     }
-    return DefWindowProc(hWnd, iMsg, wParam, lParam);
-}
-//..........................................................................*/
-static void playerTrigger(void) {
-    static QP::QEvt const fireEvt = { GAME::PLAYER_TRIGGER_SIG, 0U, 0U };
-    QP::QF::PUBLISH(&fireEvt, static_cast<void *>(0));
+
+                    // Perform initialization after all child windows have been created
+    case WM_INITDIALOG: {
+
+        // --> QP: spawn the GAME thread to run main_gui()
+        Q_ALLEGE (CreateThread (NULL, 0, &appThread, NULL, 0, NULL)
+            != (HANDLE)0);
+        return 0;
+    }
+
+    case WM_DESTROY: {
+        OutputDebugString ("DESTROY\n");
+        PostQuitMessage (0);
+        return 0;
+    }
+
+                     // commands from regular buttons and menus...
+    case WM_COMMAND: {
+        SetFocus (hWnd);
+        switch (wParam) {
+            case IDOK:
+            case IDCANCEL: {
+               OutputDebugString ("QUIT\n");
+               PostQuitMessage (0);
+               break;
+            }
+        }
+        return 0;
+    }
+
+                     // owner-drawn buttons...
+    case WM_DRAWITEM: {
+        return 0;
+    }
+
+                      // mouse wheel input...
+    case WM_MOUSEWHEEL: {
+        //OutputDebugString ("MOUSEWHEEL\n");
+        return 0;
+    }
+
+                        // keyboard input...
+    case WM_KEYDOWN: {
+        //OutputDebugString ("KEYDOWN\n");
+        switch (wParam) {
+        case VK_SPACE:
+            playerTrigger ();
+
+            break;
+        }
+        case VK_NUMPAD0: {
+            break;
+
+        }
+                     // ...
+
+         return 0;  // This is for the default
+    }
+
+    case WM_KEYUP: {
+        //OutputDebugString ("KEYUP\n");
+        //switch (wParam) {
+         //   case VK_SPACE:
+         //      break;
+          //  }
+        return 0;
+    }
+    
+    }
+    return DefWindowProc (hWnd, iMsg, wParam, lParam);
 }
 
 } // namespace APPLICATION
@@ -497,8 +461,14 @@ void QS::onCommand(uint8_t cmdId, uint32_t param) {
 /// **************************************************************************
 // User can only add code below
 namespace GAME {
-    // .............................................................................
-    //..........................................................................*/
+
+    static GraphicDisplay   l_lcd;        // LCD display on EFM32-SLSTK3401A
+    static SegmentDisplay   l_userLED0;   // USER LED0 on EFM32-SLSTK3401A
+    static SegmentDisplay   l_userLED1;   // USER LED1 on EFM32-SLSTK3401A
+    static SegmentDisplay   l_scoreBoard; // segment display for the score
+    static OwnerDrawnButton l_userBtn0;   // USER Button0 on EFM32-SLSTK3401A
+    static OwnerDrawnButton l_userBtn1;   // USER Button1 on EFM32-SLSTK3401A
+
     void BSP_updateScreen (void) {
 
     }

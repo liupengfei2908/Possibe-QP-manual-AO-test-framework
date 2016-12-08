@@ -1,5 +1,7 @@
 ﻿  qstamp.cpp
-  main.cpp
+  bsp.cpp
+bsp.cpp(363): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winsock2.h(2238): note: 参见“gethostbyname”的声明
   正在生成代码...
   game-gui.vcxproj -> D:\qp\qpcpp\examples\arm-cm\game_efm32-slstk3401a\win32-qv\QSpy\game-gui.exe
   game-gui.vcxproj -> QSpy\game-gui.pdb (Full PDB)
