@@ -1,0 +1,105 @@
+﻿  qstamp.cpp
+  main.cpp
+  mine1.cpp
+..\mine1.cpp(291): error C3861: “BSP_doBitmapsOverlap”: 找不到标识符
+..\mine1.cpp(319): error C3861: “BSP_doBitmapsOverlap”: 找不到标识符
+  mine2.cpp
+..\mine2.cpp(290): error C3861: “BSP_doBitmapsOverlap”: 找不到标识符
+..\mine2.cpp(318): error C3861: “BSP_doBitmapsOverlap”: 找不到标识符
+  missile.cpp
+..\missile.cpp(143): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+  ship.cpp
+..\ship.cpp(76): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\ship.cpp(139): warning C4065: switch 语句包含“default”但是未包含“case”标签
+..\ship.cpp(199): error C3861: “BSP_isThrottle”: 找不到标识符
+..\ship.cpp(205): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+  tunnel.cpp
+..\tunnel.cpp(119): error C3861: “BSP_random”: 找不到标识符
+..\tunnel.cpp(131): error C3861: “BSP_random”: 找不到标识符
+..\tunnel.cpp(135): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(144): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(154): error C3861: “BSP_advanceWalls”: 找不到标识符
+..\tunnel.cpp(158): error C3861: “BSP_random”: 找不到标识符
+..\tunnel.cpp(164): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+..\tunnel.cpp(174): error C3861: “BSP_random”: 找不到标识符
+..\tunnel.cpp(184): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+..\tunnel.cpp(187): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(226): error C3861: “BSP_randomSeed”: 找不到标识符
+..\tunnel.cpp(313): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(314): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(315): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(317): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(317): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(318): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(318): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(320): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(320): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(321): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(321): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(323): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(357): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(357): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(358): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(363): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(363): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(364): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(394): error C3861: “BSP_clearWalls”: 找不到标识符
+..\tunnel.cpp(396): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(397): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(398): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(440): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+..\tunnel.cpp(441): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(440): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(444): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(500): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(514): error C3861: “BSP_isWallHit”: 找不到标识符
+..\tunnel.cpp(518): error C3861: “BSP_paintBitmap”: 找不到标识符
+..\tunnel.cpp(530): error C3861: “BSP_isWallHit”: 找不到标识符
+..\tunnel.cpp(534): error C3861: “BSP_paintBitmap”: 找不到标识符
+..\tunnel.cpp(541): error C3861: “BSP_paintBitmap”: 找不到标识符
+..\tunnel.cpp(549): error C3861: “BSP_paintBitmap”: 找不到标识符
+..\tunnel.cpp(557): error C3861: “BSP_updateScore”: 找不到标识符
+..\tunnel.cpp(582): error C3861: “BSP_clearWalls”: 找不到标识符
+..\tunnel.cpp(583): error C3861: “BSP_updateScore”: 找不到标识符
+..\tunnel.cpp(584): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(605): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(606): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(607): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(609): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+..\tunnel.cpp(610): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(609): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(612): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(619): error C3861: “BSP_updateScore”: 找不到标识符
+..\tunnel.cpp(629): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+..\tunnel.cpp(630): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(629): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(634): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(720): error C3861: “BSP_displayOff”: 找不到标识符
+..\tunnel.cpp(721): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(727): error C3861: “BSP_displayOn”: 找不到标识符
+..\tunnel.cpp(767): error C3861: “BSP_clearFB”: 找不到标识符
+..\tunnel.cpp(768): error C3861: “BSP_random”: 找不到标识符
+..\tunnel.cpp(769): error C2065: “BSP_SCREEN_WIDTH”: 未声明的标识符
+..\tunnel.cpp(770): error C2065: “BSP_SCREEN_HEIGHT”: 未声明的标识符
+..\tunnel.cpp(769): error C3861: “BSP_paintString”: 找不到标识符
+..\tunnel.cpp(772): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(773): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+..\tunnel.cpp(779): error C3861: “BSP_clearFB”: 找不到标识符
+..\tunnel.cpp(780): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(820): error C3861: “BSP_clearFB”: 找不到标识符
+..\tunnel.cpp(821): error C3861: “BSP_updateScreen”: 找不到标识符
+..\tunnel.cpp(834): warning C4065: switch 语句包含“default”但是未包含“case”标签
+  bsp.cpp
+bsp.cpp(113): error C2065: “l_lcd”: 未声明的标识符
+bsp.cpp(116): error C2065: “l_userLED1”: 未声明的标识符
+bsp.cpp(126): error C2065: “l_userBtn1”: 未声明的标识符
+bsp.cpp(261): error C2065: “l_userBtn0”: 未声明的标识符
+bsp.cpp(277): error C2065: “l_userBtn1”: 未声明的标识符
+bsp.cpp(281): warning C4065: switch 语句包含“default”但是未包含“case”标签
+bsp.cpp(336): error C2039: “BSP_TICKS_PER_SEC”: 不是“GAME”的成员
+  bsp.cpp(58): note: 参见“GAME”的声明
+bsp.cpp(336): error C2065: “BSP_TICKS_PER_SEC”: 未声明的标识符
+bsp.cpp(357): error C2039: “l_hWnd”: 不是“APPLICATION”的成员
+  D:\qp\qpcpp\examples\arm-cm\game_efm32-slstk3401a\bsp.h(37): note: 参见“APPLICATION”的声明
+bsp.cpp(357): error C2065: “l_hWnd”: 未声明的标识符
+  正在生成代码...
