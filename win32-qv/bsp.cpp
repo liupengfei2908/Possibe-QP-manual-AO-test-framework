@@ -54,8 +54,10 @@ static DWORD WINAPI appThread(LPVOID par) {
     return main_gui(); // run the QF GAME
 }
 
+
 ///***************************************************************************
-namespace GAME {
+///***************************************************************************
+namespace APPLICATION {
 
 Q_DEFINE_THIS_FILE
 // local variables -----------------------------------------------------------
@@ -86,7 +88,6 @@ static void playerTrigger(void);
 // Local functions -----------------------------------------------------------
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg,
                                 WPARAM wParam, LPARAM lParam);
-
 //............................................................................
 //..........................................................................*/
 void BSP_init(void) {
@@ -114,75 +115,6 @@ void BSP_terminate(int16_t result) {
     // end the main dialog
     EndDialog(l_hWnd, result);
 }
-//..........................................................................*/
-void BSP_updateScreen(void) {
-
-}
-//..........................................................................*/
-void BSP_clearFB() {
-}
-//..........................................................................*/
-void BSP_clearWalls() {
-}
-//..........................................................................*/
-bool BSP_isThrottle(void) { // is the throttle button depressed?
-    return OwnerDrawnButton_isDepressed(&l_userBtn1) != 0;
-}
-
-//..........................................................................*/
-void BSP_paintString(uint8_t x, uint8_t y, char const *str) {
-
-
-}
-
-//==========================================================================*/
-typedef struct { // the auxiliary structure to hold const bitmaps
-    uint8_t const *bits; // the bits in the bitmap
-    uint8_t height;      // the height of the bitmap
-} Bitmap;
-
-
-
-//..........................................................................*/
-void BSP_paintBitmap (uint8_t x, uint8_t y, uint8_t bmp_id) {
-
-}
-
-//..........................................................................*/
-void BSP_advanceWalls(uint8_t top, uint8_t bottom) {
-}
-//..........................................................................*/
-bool BSP_doBitmapsOverlap(uint8_t bmp_id1, uint8_t x1, uint8_t y1,
-                          uint8_t bmp_id2, uint8_t x2, uint8_t y2)
-{
-    return false; // the bitmaps do not overlap
-}
-//..........................................................................*/
-bool BSP_isWallHit(uint8_t bmp_id, uint8_t x, uint8_t y) {
-    return false;
-}
-
-//..........................................................................*/
-void BSP_updateScore(uint16_t score) {
- 
-}
-//..........................................................................*/
-void BSP_displayOn(void) {
-    OutputDebugString ("DisplayOn");
-
- }
-//..........................................................................*/
-void BSP_displayOff(void) {
-}
-//..........................................................................*/
-uint32_t BSP_random(void) {  // a very cheap pseudo-random-number generator
-     return 0;
-}
-//..........................................................................*/
-void BSP_randomSeed(uint32_t seed) {
-    l_rnd = seed;
-}
-
 
 //............................................................................
 //............................................................................
@@ -329,10 +261,11 @@ static void playerTrigger(void) {
     QP::QF::PUBLISH(&fireEvt, static_cast<void *>(0));
 }
 
+} // namespace APPLICATION
 
-} // namespace GAME
 
 ///***************************************************************************
+/// **************************************************************************
 namespace QP {
 //............................................................................
 void QF::onStartup(void) {
@@ -344,8 +277,8 @@ void QF::onCleanup(void) {
 //............................................................................
 void QF_onClockTick(void) {
     static QP::QEvt const tickEvt = QEVT_INITIALIZER(GAME::TIME_TICK_SIG);
-    QP::QF::TICK_X(0U, &GAME::l_clock_tick); // process time events at rate 0
-    QP::QF::PUBLISH(&tickEvt, &GAME::l_clock_tick); // publish the tick event
+    QP::QF::TICK_X(0U, &APPLICATION::l_clock_tick); // process time events at rate 0
+    QP::QF::PUBLISH(&tickEvt, &APPLICATION::l_clock_tick); // publish the tick event
 }
 //............................................................................
 extern "C" void Q_onAssert(char const * const module, int loc) {
@@ -357,7 +290,7 @@ extern "C" void Q_onAssert(char const * const module, int loc) {
     // SNPRINTF_S() set and send ,message, to MessageBox()
     SNPRINTF_S(message, Q_DIM(message) - 1,
                "Assertion failed in module %s location %d", module, loc);
-    MessageBox(GAME::l_hWnd, message, "!!! ASSERTION !!!",
+    MessageBox(APPLICATION::l_hWnd, message, "!!! ASSERTION !!!",
                MB_OK | MB_ICONEXCLAMATION | MB_APPLMODAL);
     PostQuitMessage(-1);
 }
@@ -382,7 +315,7 @@ extern "C" void Q_onAssert(char const * const module, int loc) {
 //............................................................................
 extern "C" DWORD WINAPI idleThread(LPVOID par) { // signature for CreateThread()
     (void)par;
-    while (GAME::l_sock != INVALID_SOCKET) {
+    while (APPLICATION::l_sock != INVALID_SOCKET) {
         uint8_t const *block;
 
         // try to receive bytes from the QS socket...
@@ -394,7 +327,7 @@ extern "C" DWORD WINAPI idleThread(LPVOID par) { // signature for CreateThread()
             if (nBytes > sizeof(buf)) {
                 nBytes = sizeof(buf);
             }
-            status = recv(GAME::l_sock, reinterpret_cast<char *>(&buf[0]),
+            status = recv(APPLICATION::l_sock, reinterpret_cast<char *>(&buf[0]),
                           static_cast<int>(nBytes), 0);
             if (status != SOCKET_ERROR) {
                 uint16_t i;
@@ -412,7 +345,7 @@ extern "C" DWORD WINAPI idleThread(LPVOID par) { // signature for CreateThread()
         QF_CRIT_EXIT(dummy);
 
         if (block != static_cast<uint8_t *>(0)) {
-            send(GAME::l_sock, reinterpret_cast<char const *>(block),
+            send(APPLICATION::l_sock, reinterpret_cast<char const *>(block),
                  static_cast<int_t>(nBytes), 0);
         }
         Sleep(20); // sleep for xx milliseconds
@@ -456,8 +389,8 @@ bool QS::onStartup(void const *arg) {
         port = (USHORT)strtoul(src + 1, NULL, 10);
     }
 
-    GAME::l_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // TCP socket
-    if (GAME::l_sock == INVALID_SOCKET){
+    APPLICATION::l_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // TCP socket
+    if (APPLICATION::l_sock == INVALID_SOCKET){
         printf("Socket cannot be created; error 0x%08X\n",
                WSAGetLastError());
         return false; // failure
@@ -474,7 +407,7 @@ bool QS::onStartup(void const *arg) {
     sockAddr.sin_family = AF_INET;
     memcpy(&sockAddr.sin_addr, server->h_addr, server->h_length);
     sockAddr.sin_port = htons(port);
-    if (connect(GAME::l_sock, reinterpret_cast<struct sockaddr *>(&sockAddr),
+    if (connect(APPLICATION::l_sock, reinterpret_cast<struct sockaddr *>(&sockAddr),
                 sizeof(sockAddr)) == SOCKET_ERROR)
     {
         printf("Cannot connect to the QSPY server; error 0x%08X\n",
@@ -484,7 +417,7 @@ bool QS::onStartup(void const *arg) {
     }
 
     // Set the socket to non-blocking mode.
-    if (ioctlsocket(GAME::l_sock, FIONBIO, &ioctl_opt) == SOCKET_ERROR) {
+    if (ioctlsocket(APPLICATION::l_sock, FIONBIO, &ioctl_opt) == SOCKET_ERROR) {
         printf("Socket configuration failed.\n"
                "Windows socket error 0x%08X.",
                WSAGetLastError());
@@ -507,8 +440,8 @@ bool QS::onStartup(void const *arg) {
     //QS_FILTER_ON(QS_QF_ACTIVE_POST_LIFO);
     QS_FILTER_ON(QS_QF_PUBLISH);
 
-    QS_FILTER_ON(GAME::PLAYER_TRIGGER);
-    QS_FILTER_ON(GAME::COMMAND_STAT);
+    //QS_FILTER_ON(GAME::PLAYER_TRIGGER);
+    //QS_FILTER_ON(GAME::COMMAND_STAT);
 
     // return the status of creating the idle thread
     return (CreateThread(NULL, 1024, &idleThread, NULL, 0, NULL) != NULL)
@@ -516,9 +449,9 @@ bool QS::onStartup(void const *arg) {
 }
 //............................................................................
 void QS::onCleanup(void) {
-    if (GAME::l_sock != INVALID_SOCKET) {
-        closesocket(GAME::l_sock);
-        GAME::l_sock = INVALID_SOCKET;
+    if (APPLICATION::l_sock != INVALID_SOCKET) {
+        closesocket(APPLICATION::l_sock);
+        APPLICATION::l_sock = INVALID_SOCKET;
     }
     WSACleanup();
 }
@@ -527,7 +460,7 @@ void QS::onFlush(void) {
     uint16_t nBytes = 1000U;
     uint8_t const *block;
     while ((block = getBlock(&nBytes)) != static_cast<uint8_t *>(0)) {
-        send(GAME::l_sock, reinterpret_cast<char const *>(block), nBytes, 0);
+        send(APPLICATION::l_sock, reinterpret_cast<char const *>(block), nBytes, 0);
         nBytes = 1000U;
     }
 }
@@ -546,7 +479,7 @@ void QS::onCommand(uint8_t cmdId, uint32_t param) {
     (void)cmdId;
     (void)param;
     // GAME-specific record begin
-    QS_BEGIN(GAME::COMMAND_STAT, static_cast<void *>(0))
+    QS_BEGIN(APPLICATION::COMMAND_STAT, static_cast<void *>(0))
         QS_U8(2, cmdId);
         QS_U32(8, param);
     QS_END()
@@ -557,6 +490,63 @@ void QS::onCommand(uint8_t cmdId, uint32_t param) {
 }
 
 #endif // Q_SPY
-//----------------------------------------------------------------------------
-
 } // namespace QP
+
+
+///***************************************************************************
+/// **************************************************************************
+// User can only add code below
+namespace GAME {
+    // .............................................................................
+    //..........................................................................*/
+    void BSP_updateScreen (void) {
+
+    }
+    //..........................................................................*/
+    void BSP_clearFB () {
+    }
+    //..........................................................................*/
+    void BSP_clearWalls () {
+    }
+    //..........................................................................*/
+    bool BSP_isThrottle (void) { // is the throttle button depressed?
+        return false;
+    }
+    //..........................................................................*/
+    void BSP_paintString (uint8_t x, uint8_t y, char const *str) {
+    }
+    //..........................................................................*/
+    void BSP_paintBitmap (uint8_t x, uint8_t y, uint8_t bmp_id) {
+    }
+    //..........................................................................*/
+    void BSP_advanceWalls (uint8_t top, uint8_t bottom) {
+    }
+    //..........................................................................*/
+    bool BSP_doBitmapsOverlap (uint8_t bmp_id1, uint8_t x1, uint8_t y1,
+        uint8_t bmp_id2, uint8_t x2, uint8_t y2)
+    {
+        return false; // the bitmaps do not overlap
+    }
+    //..........................................................................*/
+    bool BSP_isWallHit (uint8_t bmp_id, uint8_t x, uint8_t y) {
+        return false;
+    }
+
+    //..........................................................................*/
+    void BSP_updateScore (uint16_t score) {
+    }
+    //..........................................................................*/
+    void BSP_displayOn (void) {
+        OutputDebugString ("DisplayOn");
+    }
+    //..........................................................................*/
+    void BSP_displayOff (void) {
+    }
+    //..........................................................................*/
+    uint32_t BSP_random (void) {  // a very cheap pseudo-random-number generator
+        return 0;
+    }
+    //..........................................................................*/
+    void BSP_randomSeed (uint32_t seed) {
+    }
+}

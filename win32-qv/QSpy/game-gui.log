@@ -1,8 +1,5 @@
 ﻿  qstamp.cpp
-  bsp.cpp
-bsp.cpp(284): warning C4065: switch 语句包含“default”但是未包含“case”标签
-bsp.cpp(466): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  C:\Program Files (x86)\Windows Kits\8.1\Include\um\winsock2.h(2238): note: 参见“gethostbyname”的声明
+  main.cpp
   正在生成代码...
   game-gui.vcxproj -> D:\qp\qpcpp\examples\arm-cm\game_efm32-slstk3401a\win32-qv\QSpy\game-gui.exe
   game-gui.vcxproj -> QSpy\game-gui.pdb (Full PDB)

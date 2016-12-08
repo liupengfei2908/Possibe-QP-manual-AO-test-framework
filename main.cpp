@@ -47,7 +47,7 @@ int main() {
     static QP::QSubscrList subscrSto[GAME::MAX_PUB_SIG];
 
     QP::QF::init();  // initialize the framework and the underlying RT kernel
-    GAME::BSP_init(); // initialize the Board Support Package
+    APPLICATION::BSP_init(); // initialize the Board Support Package
 
     // initialize the event pools...
     QP::QF::poolInit(smlPoolSto, sizeof(smlPoolSto), sizeof(smlPoolSto[0]));

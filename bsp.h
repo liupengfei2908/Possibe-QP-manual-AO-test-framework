@@ -34,14 +34,17 @@
 #ifndef bsp_h
 #define bsp_h
 
+namespace APPLICATION {
+    void BSP_init (void);
+    void BSP_terminate (int16_t result);
+}
+// end of namespace APPLICATION
+
 namespace GAME {
 
 uint32_t const BSP_TICKS_PER_SEC = static_cast<uint32_t>(33);
 uint32_t const BSP_SCREEN_WIDTH  = static_cast<uint32_t>(128);
 uint32_t const BSP_SCREEN_HEIGHT = static_cast<uint32_t>(128);
-
-void BSP_init(void);
-void BSP_terminate(int16_t result);
 
 void BSP_updateScreen(void);
 void BSP_clearFB(void);
@@ -63,5 +66,7 @@ void BSP_randomSeed(uint32_t seed);   // random seed
 uint32_t BSP_random(void);            // pseudo-random generator
 
 } // namespace GAME
+
+
 
 #endif // bsp_h
